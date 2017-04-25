@@ -46,6 +46,30 @@
             });
     }
     else {
-        content.innerHTML = "Su navegador no soporta la API de geolocalización.";
+      content.innerHTML = "Su navegador no soporta la API de geolocalización.";
     }
+
+    //Geo IP
+    var request = new XMLHttpRequest();
+    var ipgeo = document.getElementById('ipgeo')
+    request.open('GET', 'https://ipinfo.io/json', true);
+
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400) {
+        // Success!
+        var data = JSON.parse(request.responseText);
+        ipgeo.innerHTML = JSON.stringify(data, undefined, 2);
+        console.log(data);
+      } else {
+        // Enviamos al servidor, pero recibe error
+        console.log("error de respuesta");
+      }
+    };
+
+    request.onerror = function() {
+      //No hay conexión para hacer el envío
+      console.log("Error de conexión");
+    };
+
+    request.send();
 })();
